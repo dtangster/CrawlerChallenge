@@ -32,7 +32,12 @@ public class GraphBuilder {
 
     public Graph buildGraph() {
         if (!graphBuilt) {
-            buildGraph(startExpression);
+            buildGraph(startExpression); // Build initial queue
+
+            while (!queue.isEmpty()) {
+                buildGraph(queue.removeFirst());
+            }
+
             graphBuilt = true;
         }
 
@@ -46,25 +51,32 @@ public class GraphBuilder {
 
         while (root != null) {
             long newStartPoint = root.accept(visitor);
+            GraphNode parent = graph.getNode(startPoint);
+            int newDistance = parent.getDistance() + 1;
+            System.out.println(newStartPoint);
 
             if (newStartPoint == -1) {
                 graph.setGoal(startPoint);
-            } else if (newStartPoint >= 0) {
-                queue.add(newStartPoint);
+            }
+            else if (newStartPoint >= 0) {
+                GraphNode child = graph.getNode(newStartPoint);
+
+                if (child == null) {
+                    child = new GraphNode(newStartPoint);
+                    child.setDistance(parent.getDistance() + 1);
+                    child.setParent(parent);
+                    graph.addNode(child);
+                    queue.add(child.getValue());
+                }
+                else if (newDistance < child.getDistance()) {
+                    child.setDistance(newDistance);
+                    child.setParent(parent);
+                }
+
+                graph.addEdge(parent, child);
             }
 
             root = parser.parse();
-        }
-
-        while (!queue.isEmpty()) {
-            long value = queue.removeFirst();
-
-            if (graph.addNode(value)) {
-                graph.addAdjacencyListNode(value, startPoint);
-                buildGraph(value);
-            } else {
-                graph.incrementCycleCount();
-            }
         }
     }
 }

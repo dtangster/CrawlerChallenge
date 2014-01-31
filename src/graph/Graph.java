@@ -7,16 +7,16 @@ import java.util.Map;
 
 public class Graph {
     private Map<Long, GraphNode> nodes;
-    private long startPoint;
     private long goal;
-    private long cycleCount;
+    private int cycleCount;
+    boolean graphChanged;
 
     public Graph(Long startPoint) {
         nodes = new HashMap<Long, GraphNode>();
-        this.startPoint = startPoint;
-        nodes.put(startPoint, new GraphNode(startPoint, null));
+        nodes.put(startPoint, new GraphNode(startPoint));
         goal = -1; // -1 represents not found
         cycleCount = 0;
+        graphChanged = true;
     }
 
     public Deque<Long> getShortestPath() {
@@ -35,27 +35,27 @@ public class Graph {
         return shortestPath;
     }
 
-    public boolean addNode(long value) {
-        if (nodes.containsKey(value)) {
-            return false;
+    public int calculateCycleCount() {
+        if (!graphChanged) {
+            return cycleCount;
         }
 
-        nodes.put(value, new GraphNode(value, null));
-        return true;
+        return 0;
     }
 
-    public void addAdjacencyListNode(long value, long parentValue) {
-        GraphNode parentNode = nodes.get(parentValue);
-        GraphNode treeNode = new GraphNode(value, parentNode);
-
-        parentNode.addEdge(treeNode);
-        treeNode.setParent(parentNode);
-        nodes.put(value, treeNode);
+    public void addNode(GraphNode node) {
+        nodes.put(node.getValue(), node);
+        graphChanged = true;
     }
 
+    public void addEdge(GraphNode parent, GraphNode child) {
+        parent.addEdge(child);
+        graphChanged = true;
+    }
+
+    public GraphNode getNode(long value) { return nodes.get(value); }
     public long getGoal() { return goal; }
     public void setGoal(long goal) { this.goal = goal; }
     public long getNodeCount() { return nodes.size(); }
     public long getCycleCount() { return cycleCount; }
-    public void incrementCycleCount() { cycleCount++; }
 }
