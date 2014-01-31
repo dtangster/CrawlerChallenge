@@ -40,7 +40,7 @@ public class GraphBuilder {
     }
 
     private void buildGraph(long startPoint) {
-        URLScanner reader = new URLScanner(baseURL, startPoint);
+        URLScanner reader = new URLScanner(baseURL + startPoint);
         ExpressionParser parser = new ExpressionParser(reader);
         SyntaxNode root = parser.parse();
 

@@ -9,28 +9,15 @@ import java.util.StringTokenizer;
 public class URLScanner {
     public static String DELIMETERS = "(),";
 
-    private String baseURL;
-    private long value;
-    private URL url;
     private BufferedReader reader;
     private StringTokenizer tokenizer;
-    private Token currentToken;
 
-    public URLScanner(String baseURL, long value) {
-        this.baseURL = baseURL;
-        this.value = value;
-        prepareNewURL(value);
-    }
-
-    public void prepareNewURL(long value) {
+    public URLScanner(String url) {
         try {
-            url = new URL(baseURL + value);
-            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            reader = new BufferedReader(new InputStreamReader(new URL(url).openStream()));
             tokenizer = new StringTokenizer(reader.readLine(), DELIMETERS);
         } catch (IOException ex) { ex.printStackTrace(); }
     }
-
-    public Token getCurrentToken() { return currentToken; }
 
     public Token nextToken() {
         String text = null;
@@ -45,16 +32,15 @@ public class URLScanner {
             if (tokenizer.hasMoreTokens()) {
                 text = tokenizer.nextToken();
                 type = TokenType.TOKEN_TYPES.get(text.toLowerCase());
-                token = new Token(text, type);
+                token = new Token(type);
             }
 
             if (text != null && text.matches("-?\\d+(\\.\\d+)?")) {
-                token = new Token(text, TokenType.NUMBER);
+                token = new Token(TokenType.NUMBER);
                 token.setValue(Long.parseLong(text));
             }
         } catch (IOException ex) { ex.printStackTrace(); }
 
-        currentToken = token;
         return token;
     }
 }

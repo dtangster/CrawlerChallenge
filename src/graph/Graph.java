@@ -14,7 +14,7 @@ public class Graph {
     public Graph(Long startPoint) {
         nodes = new HashMap<Long, GraphNode>();
         this.startPoint = startPoint;
-        nodes.put(startPoint, new GraphNode(startPoint));
+        nodes.put(startPoint, new GraphNode(startPoint, null));
         goal = -1; // -1 represents not found
         cycleCount = 0;
     }
@@ -40,13 +40,13 @@ public class Graph {
             return false;
         }
 
-        nodes.put(value, new GraphNode(value));
+        nodes.put(value, new GraphNode(value, null));
         return true;
     }
 
     public void addAdjacencyListNode(long value, long parentValue) {
         GraphNode parentNode = nodes.get(parentValue);
-        GraphNode treeNode = new GraphNode(value);
+        GraphNode treeNode = new GraphNode(value, parentNode);
 
         parentNode.addEdge(treeNode);
         treeNode.setParent(parentNode);
