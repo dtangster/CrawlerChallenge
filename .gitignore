@@ -1,0 +1,10 @@
+*.zip
+*.class
+*.o
+.DS_Store
+tags
+out/
+workspace.xml
+misc.xml
+.idea/
+*.iml
