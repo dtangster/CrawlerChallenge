@@ -67,10 +67,6 @@ public class GraphBuilder {
                     graph.addNode(child);
                     queue.add(child.getValue());
                 }
-                else if (depth < child.getMinDepth()) {
-                    child.setMinDepth(depth);
-                    child.setParent(parent);
-                }
 
                 graph.addEdge(parent, child);
             }
