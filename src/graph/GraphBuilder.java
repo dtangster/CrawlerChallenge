@@ -52,7 +52,6 @@ public class GraphBuilder {
         while (root != null) {
             long newStartPoint = root.accept(visitor);
             GraphNode parent = graph.getNode(startPoint);
-            int depth = parent.getMinDepth() + 1;
 
             if (newStartPoint == -1) {
                 graph.setGoal(startPoint);
