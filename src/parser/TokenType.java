@@ -12,7 +12,7 @@ public enum TokenType {
     private static final int FIRST_TOKEN_INDEX = ABSOLUTE_VALUE.ordinal();
     private static final int LAST_TOKEN_INDEX = NUMBER.ordinal();
 
-    public static Map<String, TokenType> TOKEN_TYPES = new HashMap<String, TokenType>();
+    public static final Map<String, TokenType> TOKEN_TYPES = new HashMap<String, TokenType>();
 
     private String text;
 

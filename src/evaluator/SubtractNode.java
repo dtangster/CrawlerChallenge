@@ -1,8 +1,5 @@
 package evaluator;
 
-/**
- * Created by Tang on 1/28/14.
- */
 public class SubtractNode extends SyntaxNode {
     public static int PARAMETER_COUNT = 2;
 
