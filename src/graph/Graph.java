@@ -1,9 +1,6 @@
 package graph;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Graph {
     private Map<Long, GraphNode> nodes;
@@ -35,12 +32,32 @@ public class Graph {
         return shortestPath;
     }
 
-    public int calculateCycleCount() {
+    public int getCycleCount() {
         if (!graphChanged) {
             return cycleCount;
         }
 
-        return 0;
+        Set<GraphNode> visited = new HashSet<GraphNode>();
+        Set<GraphNode> finished = new HashSet<GraphNode>();
+
+        for (GraphNode u : nodes.values()) {
+            if (visited.add(u)) {
+                depthFirstSearch(u, visited, finished);
+            }
+        }
+
+        graphChanged = false;
+        return cycleCount;
+    }
+
+    public void depthFirstSearch(GraphNode u, Set<GraphNode> visited, Set<GraphNode> finished) {
+        for (GraphNode v : u.getAdjacencyList()) {
+            if (visited.add(v)) {
+                depthFirstSearch(v, visited, finished);
+            }
+        }
+
+        finished.add(u);
     }
 
     public void addNode(GraphNode node) {
@@ -57,5 +74,4 @@ public class Graph {
     public long getGoal() { return goal; }
     public void setGoal(long goal) { this.goal = goal; }
     public long getNodeCount() { return nodes.size(); }
-    public long getCycleCount() { return cycleCount; }
 }

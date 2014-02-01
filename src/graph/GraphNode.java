@@ -21,4 +21,5 @@ public class GraphNode {
     public int getDistance() { return distance; }
     public void setDistance(int distance) { this.distance = distance; }
     public void addEdge(GraphNode child) { adjacencyList.add(child); }
+    public Set<GraphNode> getAdjacencyList() { return adjacencyList; }
 }
