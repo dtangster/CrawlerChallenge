@@ -52,7 +52,7 @@ public class GraphBuilder {
         while (root != null) {
             long newStartPoint = root.accept(visitor);
             GraphNode parent = graph.getNode(startPoint);
-            int newDistance = parent.getDistance() + 1;
+            int newDistance = parent.getMinDepth() + 1;
             System.out.println(newStartPoint);
 
             if (newStartPoint == -1) {
@@ -63,13 +63,13 @@ public class GraphBuilder {
 
                 if (child == null) {
                     child = new GraphNode(newStartPoint);
-                    child.setDistance(parent.getDistance() + 1);
+                    child.setMinDepth(parent.getMinDepth() + 1);
                     child.setParent(parent);
                     graph.addNode(child);
                     queue.add(child.getValue());
                 }
-                else if (newDistance < child.getDistance()) {
-                    child.setDistance(newDistance);
+                else if (newDistance < child.getMinDepth()) {
+                    child.setMinDepth(newDistance);
                     child.setParent(parent);
                 }
 

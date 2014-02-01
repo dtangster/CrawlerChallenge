@@ -29,10 +29,10 @@ public class Crawler {
                   .append("\"goal\":").append(graph.getGoal())
                   .append(",\"node_count\":").append(graph.getNodeCount())
                   .append(",\"directed_cycle_count\":").append(graph.getCycleCount())
-                  .append(",\"shortest_path\":[").append(path.removeLast());
+                  .append(",\"shortest_path\":[").append(path.pop());
 
             while (!path.isEmpty()) {
-                buffer.append("," + path.removeLast());
+                buffer.append("," + path.pop());
             }
 
             buffer.append("]}");

@@ -1,19 +1,22 @@
 package graph;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class Graph {
     private Map<Long, GraphNode> nodes;
     private long goal;
     private int cycleCount;
-    boolean graphChanged;
+    private int time;
+    boolean edgeAdded;
 
     public Graph(Long startPoint) {
-        nodes = new HashMap<Long, GraphNode>();
+        nodes = new LinkedHashMap<Long, GraphNode>();
         nodes.put(startPoint, new GraphNode(startPoint));
         goal = -1; // -1 represents not found
-        cycleCount = 0;
-        graphChanged = true;
+        edgeAdded = true; // If true, we need to recalculate cycleCount
     }
 
     public Deque<Long> getShortestPath() {
@@ -25,7 +28,7 @@ public class Graph {
         GraphNode node = nodes.get(goal);
 
         while (node != null) {
-            shortestPath.add(node.getValue());
+            shortestPath.push(node.getValue());
             node = node.getParent();
         }
 
@@ -33,44 +36,45 @@ public class Graph {
     }
 
     public int getCycleCount() {
-        if (!graphChanged) {
+        if (!edgeAdded) {
             return cycleCount;
         }
 
-        Set<GraphNode> visited = new HashSet<GraphNode>();
-        Set<GraphNode> finished = new HashSet<GraphNode>();
+        time = 0;
+        cycleCount = 0;
 
         for (GraphNode u : nodes.values()) {
-            if (visited.add(u)) {
-                depthFirstSearch(u, visited, finished);
+            if (u.getVisitTime() == 0) {
+                depthFirstSearch(u);
             }
         }
 
-        graphChanged = false;
+        edgeAdded = false;
         return cycleCount;
     }
 
-    public void depthFirstSearch(GraphNode u, Set<GraphNode> visited, Set<GraphNode> finished) {
+    public void depthFirstSearch(GraphNode u) {
+        u.setVisitTime(++time);
+
         for (GraphNode v : u.getAdjacencyList()) {
-            if (visited.add(v)) {
-                depthFirstSearch(v, visited, finished);
+            if (v.getVisitTime() == 0) {
+                depthFirstSearch(v);
+            }
+            else if (v.getCompleteTime() == 0 && u.getVisitTime() > v.getVisitTime()) {
+                cycleCount++;
             }
         }
 
-        finished.add(u);
-    }
-
-    public void addNode(GraphNode node) {
-        nodes.put(node.getValue(), node);
-        graphChanged = true;
+        u.setCompleteTime(++time);
     }
 
     public void addEdge(GraphNode parent, GraphNode child) {
         parent.addEdge(child);
-        graphChanged = true;
+        edgeAdded = true;
     }
 
     public GraphNode getNode(long value) { return nodes.get(value); }
+    public void addNode(GraphNode node) { nodes.put(node.getValue(), node); }
     public long getGoal() { return goal; }
     public void setGoal(long goal) { this.goal = goal; }
     public long getNodeCount() { return nodes.size(); }

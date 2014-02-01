@@ -1,1 +1,1 @@
-{"goal":28422,"node_count":41,"directed_cycle_count":0,"shortest_path":[8201706,1520491,7118678,28422]}
+{"goal":28422,"node_count":41,"directed_cycle_count":3,"shortest_path":[8201706,1520491,7118678,28422]}
