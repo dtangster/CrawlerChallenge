@@ -22,7 +22,6 @@ public class URLScanner {
     public Token nextToken() {
         String text = null;
         Token token = null;
-        TokenType type;
 
         try {
             if (!tokenizer.hasMoreTokens() && (text = reader.readLine()) != null) {
@@ -31,7 +30,7 @@ public class URLScanner {
 
             if (tokenizer.hasMoreTokens()) {
                 text = tokenizer.nextToken();
-                type = TokenType.TOKEN_TYPES.get(text.toLowerCase());
+                TokenType type = TokenType.TOKEN_TYPES.get(text.toLowerCase());
                 token = new Token(type);
             }
 
