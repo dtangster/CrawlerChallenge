@@ -8,9 +8,9 @@ import java.util.List;
  */
 public abstract class SyntaxNode {
     private long value;
-    private ArrayList<SyntaxNode> children = new ArrayList<SyntaxNode>();
+    private ArrayList<SyntaxNode> children;
 
-    public SyntaxNode() {}
+    public SyntaxNode() { children = new ArrayList<SyntaxNode>(); }
     public SyntaxNode(long value) { this.value = value; }
     public long getValue() { return value; }
     public long accept(NodeVisitor visitor) { return visitor.visit(this); }
