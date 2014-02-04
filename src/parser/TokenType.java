@@ -17,7 +17,7 @@ public enum TokenType {
     private String text;
 
     TokenType() { text = toString().toLowerCase(); }
-    TokenType(String text) { this.text = text; }
+    TokenType(String text) { this.text = text.toLowerCase(); }
     public String getText() { return text; }
 
     static {
