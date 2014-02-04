@@ -34,7 +34,7 @@ public class URLScanner {
                 token = new Token(type);
             }
 
-            if (text != null && text.matches("-?\\d+(\\.\\d+)?")) {
+            if (text != null && text.matches("-?\\d+")) {
                 token = new Token(TokenType.NUMBER);
                 token.setValue(Long.parseLong(text));
             }
