@@ -32,7 +32,7 @@ public class Crawler {
                   .append(",\"shortest_path\":[").append(path.pop());
 
             while (!path.isEmpty()) {
-                buffer.append("," + path.pop());
+                buffer.append(",").append(path.pop());
             }
 
             buffer.append("]}");
