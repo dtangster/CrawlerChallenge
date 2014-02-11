@@ -44,6 +44,11 @@ public class Graph {
         cycleCount = 0;
 
         for (GraphNode u : nodes.values()) {
+            u.setVisitTime(0);
+            u.setCompleteTime(0);
+        }
+
+        for (GraphNode u : nodes.values()) {
             if (u.getVisitTime() == 0) {
                 depthFirstSearch(u);
             }

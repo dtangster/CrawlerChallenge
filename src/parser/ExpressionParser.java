@@ -10,7 +10,7 @@ public class ExpressionParser {
 
     public ExpressionParser(URLScanner scanner) { this.scanner = scanner; }
 
-    public Token nextToken() { return scanner.nextToken(); }
+    private Token nextToken() { return scanner.nextToken(); }
 
     public SyntaxNode parse() {
         Token token = nextToken();
