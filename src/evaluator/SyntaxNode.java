@@ -24,8 +24,8 @@ public abstract class SyntaxNode {
     public long childrenAccept(NodeVisitor visitor) {
         long total = 0;
 
-        for (int i = 0; i < children.size(); ++i) {
-            total += children.get(i).accept(visitor);
+        for (SyntaxNode node : children) {
+            total += node.accept(visitor);
         }
 
         return total;

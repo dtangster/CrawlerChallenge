@@ -65,7 +65,7 @@ public class Graph {
             if (v.getVisitTime() == 0) {
                 depthFirstSearch(v);
             }
-            else if (v.getCompleteTime() == 0 && u.getVisitTime() > v.getVisitTime()) {
+            else if (v.getCompleteTime() == 0) {
                 cycleCount++;
             }
         }
